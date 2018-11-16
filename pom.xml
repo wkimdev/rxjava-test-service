@@ -22,6 +22,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<rxjava2.jdbc.version>0.1-RC42</rxjava2.jdbc.version>
+		<project.lombok>1.18.4</project.lombok>
 	</properties>
 
 	<dependencies>
@@ -57,11 +59,11 @@
 		</dependency>
         
         <!-- error -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.github.davidmoten</groupId>
 			<artifactId>rxjava2-jdbc</artifactId>
-			<version>${rxjava2.jdbc.version}</version>
-		</dependency> -->
+			<version>0.1-RC39</version>
+		</dependency>
 		
 		<!-- webflux 설정 필수  -->
 		<dependency>

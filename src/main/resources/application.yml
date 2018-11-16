@@ -1,0 +1,100 @@
+#spring  setup and common configuration
+spring:
+  profiles:
+    active: private
+
+server:
+  port: 8089
+
+api:
+  contextRoot: /api
+
+---
+#spring profiles : PRIVATE
+#spring and hikari setup
+spring:
+  profiles: private
+  
+datasource:
+  hikari:
+      cachePrepStmts: true
+      connectionTestQuery: SELECT 1
+      maximumPoolSize: 4
+      minimumIdle: 4
+      prepStmtCacheSize: 250 
+      prepStmtCacheSqlLimit: 2048 
+      pool-name: rxjava2-server-local
+  url: jdbc:mysql://192.168.0.242:3306/smart_medi?autoReconnect=true
+  username: smart-medi
+  password: mt393939
+  dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+  type: com.zaxxer.hikari.HikariDataSource
+
+#  url: jdbc:mysql://localhost:3306/testdb?autoReconnect=true
+#  username: root
+#  password: 1234
+#  dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+    
+#logging
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web: DEBUG
+        
+#ethereum node setup
+eth:
+  rpc:
+    protocol: 
+    host: 
+    port: 
+  coinbase:
+    password: 
+    path: 
+    pathtowallet: 
+  smartcontract:
+    basquiat:
+      address: 
+
+---
+#spring profiles : PROD
+#spring and hikari setup
+spring:
+  profiles: prod
+  
+datasource:
+  hikari:
+      cachePrepStmts: true
+      connectionTestQuery: SELECT 1
+      maximumPoolSize: 4
+      minimumIdle: 4
+      prepStmtCacheSize: 250 
+      prepStmtCacheSqlLimit: 2048 
+      pool-name: rxjava2-server-local
+  url: jdbc:mysql://localhost:3306/testdb?autoReconnect=true
+  username: 
+  password: 
+  dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+    
+#logging
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web: DEBUG
+        
+#ethereum node setup
+eth:
+  rpc:
+    protocol: 
+    host: 
+    port: 
+  coinbase:
+    password: 
+    path: 
+    pathtowallet: 
+  smartcontract:
+    basquiat:
+      address: 
