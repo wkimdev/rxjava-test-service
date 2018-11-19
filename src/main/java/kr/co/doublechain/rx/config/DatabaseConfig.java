@@ -19,34 +19,41 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class DatabaseConfig {
 	
-	private Database database; //rxjava-jdbc
+	private Database database;
 	
-	public DatabaseConfig(@Value("$(datasource.url)") final String url,
-							@Value("$(datasource.username)") final String user,
-							@Value("$(datasource.password)") final String password,
-							@Value("$(datasource.hikari.maximumPoolSize)") final String maxPoolSize) throws SQLException {
-		// db를 non blocking 으로 설정.
+	/**
+	 * Constructor
+	 * nonBlocking config for rxjava2
+	 * @param url
+	 * @param user
+	 * @param password
+	 * @param maxPoolSize
+	 * @throws SQLException 
+	 */
+	public DatabaseConfig(@Value("${datasource.url}") final String url,
+						  @Value("${datasource.username}") final String user,
+						  @Value("${datasource.password}") final String password,
+						  @Value("${datasource.hikari.maximumPoolSize}") final Integer maxPoolSize) throws SQLException {
+		
 		database = Database.nonBlocking()
-							.url(url)
-							.user(user) //error could not read
-			    		    .password(password)
-						 	.maxIdleTime(30, TimeUnit.MINUTES)
-						 	.healthCheck(DatabaseType.MYSQL) //?
-						 	.idleTImeBeforeHealthCheck(5, TimeUnit.SECONDS)
-						 	.connectionRetryInterval(30, TimeUnit.SECONDS)
-						 	.maxPoolSize(maxPoolSize)
-						 	.build();
+			    		   .url(url)
+			    		   .user(user)
+			    		   .password(password)
+			    		   .maxIdleTime(30, TimeUnit.MINUTES)
+						   .healthCheck(DatabaseType.MYSQL)
+						   .idleTimeBeforeHealthCheck(5, TimeUnit.SECONDS)
+						   .connectionRetryInterval(30, TimeUnit.SECONDS)
+						   .maxPoolSize(maxPoolSize)
+						   .build();
+		
 	}
 	
-	
-	/*
+	/**
 	 * create bean database
 	 * @return Database
 	 */
 	public @Bean Database database() {
 		return this.database;
 	}
-	
-	
 
 }

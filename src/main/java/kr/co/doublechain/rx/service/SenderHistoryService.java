@@ -5,14 +5,9 @@ import java.util.List;
 import org.davidmoten.rx.jdbc.Database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.server.ServerResponse;
 
 import io.reactivex.Flowable;
-import kr.co.doublechain.rx.config.DatabaseConfig;
-import kr.co.doublechain.rx.service.sending.domain.TransferHistory;
-
-import org.springframework.web.reactive.function.server.ServerRequest;
-
+import kr.co.doublechain.rx.service.sending.domain.TaskHistory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,12 +20,28 @@ public class SenderHistoryService {
 	/**
 	 * get TransferHistory List
 	 * @return Mono<List<TransferHistory>>
+	 * @desc 원래 리턴은 Mono<List<TransferHistory>> 이었으나, Flux<TransferHistory>로 처리 가능함.
 	 */
-	public Mono<List<TransferHistory>> getTransferHistoryList() {
-		Flowable<TransferHistory> flowable = database.select("SELECT txid, user_uuid, coin_type, transfer_amt, received_address, send_dttm FROM TRANSFER_HISTORY")
-												  .autoMap(TransferHistory.class);
-	
-		return Flux.from(flowable).collectList();
+	public Flux<TaskHistory> getTransferHistoryList() {
+		Flowable<TaskHistory> flowable = database.select("SELECT task_id, title, start_date, due_date, priority, description FROM tasks")
+									 	.autoMap(TaskHistory.class);
+		System.out.println(flowable.toList());
+		return Flux.from(flowable);
 	}
+	
+	public Mono<Integer> insertTaskHistory(TaskHistory taskHistory) {
+		Flowable<Integer> flowable = database.update("INSERT INTO tasks(title, start_date, due_date, priority, description) values ('hey, this is titile', now(), '20181120', 3, 'this is description')")
+											.parameters(taskHistory.title(),
+													taskHistory.startDate(),
+													taskHistory.dueDate(),
+													taskHistory.priority(),
+													taskHistory.description())
+											.counts()
+											.doOnError(throwable -> {
+				  						          throw new RuntimeException("unexcepted");
+				  						      });
+		return Mono.from(flowable);
+	} 
+	
 	
 }
