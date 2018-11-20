@@ -1,6 +1,7 @@
 package kr.co.doublechain.rx.service.sending.domain;
 
 import java.util.Date;
+
 import lombok.Data;
 
 /**
@@ -14,7 +15,7 @@ public class TaskHistoryDTO implements TaskHistory {
 	/**
 	 * task_id
 	 */
-	private Integer task_id;
+	private Integer taskId;
 	
 	/**
 	 * title
@@ -24,12 +25,12 @@ public class TaskHistoryDTO implements TaskHistory {
 	/**
 	 * start_date
 	 */
-	private Date start_date;
+	private Date startDate;
 	
 	/**
 	 * due_date
 	 */
-	private Date due_date;
+	private Date dueDate;
 	
 	/**
 	 * priority
@@ -41,7 +42,7 @@ public class TaskHistoryDTO implements TaskHistory {
 	 * description
 	 */
 	private String description;
-	
+
 
 	@Override
 	public Integer taskId() {

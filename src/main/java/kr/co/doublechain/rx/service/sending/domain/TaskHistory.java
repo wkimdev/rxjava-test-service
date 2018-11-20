@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  *
  */
 @JsonDeserialize(as = TaskHistoryDTO.class)
-@JsonPropertyOrder({"task_id", "title", "start_date", "due_date", "priority", "description"})
+@JsonPropertyOrder({"taskId", "title", "startDate", "dueDate", "priority", "description"})
 public interface TaskHistory {
 
 	/**

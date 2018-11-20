@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
@@ -29,6 +30,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import io.reactivex.Observable;
 import kr.co.doublechain.rx.service.sending.domain.TaskHistory;
 import kr.co.doublechain.rx.service.sending.domain.TaskHistoryDTO;
+import reactor.core.publisher.Mono;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -84,23 +86,32 @@ public class RxjavaTestServiceApplicationTests {
     	
     }
     
+    // simple post
+    // @Test
+    public void testPost() {
+    	this.webTestClient.post().uri("/update").contentType(MediaType.TEXT_PLAIN)
+    			.accept(MediaType.TEXT_PLAIN)
+    			.body(Mono.just("hello webflux!"), String.class).exchange()
+    			.expectBody(String.class).isEqualTo("hello webflux!");
+    }
+    
     @Test
     public void saveTest() throws ParseException {
     	
     	Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2018-11-03");
-    	Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2018-11-04");
+    	Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2018-11-21");
     	
     	TaskHistoryDTO taskHistoryDTO = new TaskHistoryDTO();
-    	taskHistoryDTO.setTitle("this is titile");
-    	taskHistoryDTO.setStart_date(date1);
-    	taskHistoryDTO.setDue_date(date2);
-    	taskHistoryDTO.setPriority(3);
+    	taskHistoryDTO.setTitle("thisistitile");
+//    	taskHistoryDTO.setStartDate(date1);
+//    	taskHistoryDTO.setDueDate(date2);
+//    	taskHistoryDTO.setPriority(3);
     	taskHistoryDTO.setDescription("this is description");
     	
     	webTestClient.post()
-					 .uri("/task/update")
+					 .uri("/update")
 					 .body(BodyInserters.fromObject(taskHistoryDTO))
-					 .exchange()
+					 .exchange() //
 					 .expectStatus().isOk();
     	
     }

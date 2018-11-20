@@ -44,6 +44,8 @@ logging:
     org:
       springframework:
         web: DEBUG
+  file: logs/spring-boot-logging.log
+#logging.file=logs/spring-boot-logging.log        
         
 #ethereum node setup
 eth:

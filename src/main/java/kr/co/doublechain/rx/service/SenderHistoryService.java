@@ -30,11 +30,9 @@ public class SenderHistoryService {
 	}
 	
 	public Mono<Integer> insertTaskHistory(TaskHistory taskHistory) {
-		Flowable<Integer> flowable = database.update("INSERT INTO tasks(title, start_date, due_date, priority, description) values ('hey, this is titile', now(), '20181120', 3, 'this is description')")
+		//Flowable<Integer> flowable = database.update("INSERT INTO tasks(title, start_date, due_date, priority, description) values (?, now(), ?, ?, ?)")
+		Flowable<Integer> flowable = database.update("INSERT INTO tasks(title, description) values (?, ?)")
 											.parameters(taskHistory.title(),
-													taskHistory.startDate(),
-													taskHistory.dueDate(),
-													taskHistory.priority(),
 													taskHistory.description())
 											.counts()
 											.doOnError(throwable -> {

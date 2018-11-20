@@ -33,8 +33,9 @@ public class WebFluxRouter extends DelegatingWebFluxConfiguration {
 	@Bean
 	public RouterFunction<ServerResponse> senderHistoryRouter() {
 		// could not call....
-		return route(GET("/task/list").and(accept(APPLICATION_JSON)), senderHistoryHandler::findAll)
-			  .andRoute(POST("/task/update").and(accept(APPLICATION_JSON)), senderHistoryHandler::save);
+//		return route(GET("/task/list").and(accept(APPLICATION_JSON)), senderHistoryHandler::findAll)
+		//return route(POST("/update"), senderHistoryHandler::save);
+		return route(POST("/update").and(accept(APPLICATION_JSON)), senderHistoryHandler::save);
 	}
 	
 }

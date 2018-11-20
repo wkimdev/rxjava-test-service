@@ -36,8 +36,14 @@ public class SenderHistoryHandler {
 	
 	public Mono<ServerResponse> save(ServerRequest request) {
 		// 여기서도 blocking 처리 가능. 하지만 앞에서 nonblocking 처리를 했기 때문에 비동기, 동기 맞지 않아서 에러남.
+		// old
 		Mono<Integer> result = request.bodyToMono(TaskHistory.class).flatMap(mapper -> senderHistoryService.insertTaskHistory(mapper));
 		return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(result, Integer.class);
+		
+		// body는 비동기 클래스로(mono) 지정된(publish) 애를 리턴받는다.
+		// 응답의 본체를 지정된 비동기 {@code Publisher}로 설정하고 리턴함.
+		// ok
+		//return ServerResponse.ok().body(request.bodyToMono(String.class), String.class);
 	}
 
 }
